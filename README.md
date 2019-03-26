@@ -1,6 +1,7 @@
 # Spring-Boot-Batch-Example
 
-###1. 배치 어플리케이션이란 ?
+### 1. 배치 어플리케이션이란 ?
+
 > 배치(Batch) - **일괄처리** 라는 뜻
 
 매일 전날의 데이터를 집계해야 하는 상황을 가정  
@@ -24,7 +25,7 @@
  - 성능 - 배치 어플리케이션은 지정한 시간 안에 처리를 완료하거나 동시에 실행되는 다른 어플리케이션을 방해하지 않도록 수행되어야합니다.
 </br>
 
-###2. Spring Batch ?
+### 2. Spring Batch ?
 
 Spring Batch는 Accenture와 Spring Source의 공동 작업으로 2007년에 탄생
 Accenture의 배치 노하우 & 기술력과 Spring 프레임워크가 합쳐져 만들어진 것이 Spring Batch  
@@ -33,7 +34,7 @@ DI, AOP, 서비스 추상화 등 Spring 프레임워크의 3대 요소를 모두
 Accenture의 Batch 노하우가 담긴 아키텍처 사용 가능  
 </br>
 
-###3. Annotation 및 Method
+### 3. Annotation 및 Method
 
 - **@Configuration**
    - Spring Batch의 모든 Job은 @Configuration으로 등록해서 사용합니다.
@@ -61,9 +62,30 @@ Accenture의 Batch 노하우가 담긴 아키텍처 사용 가능
 Tasklet과  Reader & Processor & Writer 를 **분리**할 수 없음  
 </br>
 
-###4. Spring Batch Meta Data
+### 4. Spring Batch Meta Data ?
 
  - 이전에 실행한 Job이 어떤 것들이 있는지  
  - 최근 실패한 Batch Parameter가 어떤것들이 있고, 성공한 Job은 어떤것들이 있는지  
  - 다시 실행한다면 어디서 부터 시작하면 될지  
  - 어떤 Job에 어떤 Step들이 있었고, Step들 중 성공한 Step과 실패한 Step들은 어떤것들이 있는지  
+
+등등 Batch 어플리케이션을 운영하기 위한 메타데이터가 여러 테이블에 나눠져 있다.  
+</br>
+
+
+#### MySQL에서 Spring Batch 실행
+##### 1. MySQL 에서 Meta Data Table 생성
+ - file search - **schema-mysql.sql** 검색 후 쿼리문을 MySQL에서 실행
+
+##### 2. Spring boot DB 연결
+ - Mybatis 연결 및 properties 파일 추가
+
+##### 3. active profile 에 mysql 추가 후 실행
+
+### 4. Spring Batch Meta Data에 대하여...
+
+ - ERD
+![Job](data/batch_table_erd.png)  
+
+
+1. BATCH_JOB_INSTANCE
