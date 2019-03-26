@@ -104,6 +104,7 @@ BATCH_JOB_INSTANCE 테이블은 Job Parameter에 따라 생성되는 테이블
 같은 Batch Job 이라도 Job Parameter가 **다르면** **Batch_JOB_INSTANCE에는 기록**되며, Job Parameter가 **같다면 기록되지 않습니다.**  
 
 </br>
+
 #### 5-2. BATCH_JOB_EXECUTION
 
 JOB_EXECUTION와 JOB_INSTANCE는 **부모-자식 관계**입니다.  
