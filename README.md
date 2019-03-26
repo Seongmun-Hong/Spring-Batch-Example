@@ -55,8 +55,9 @@ Accenture의 Batch 노하우가 담긴 아키텍처 사용 가능
 >  - **Job 안에는** 아래처럼 **여러 Step**이 존재하고  
 >  - **Step 안에** **Tasklet** 혹은 **Reader & Processor & Writer** 묶음이 존재  
 
-</br>
-![Job](data/job.png)
+</br>  
+
+![JOB](data/job.png)
 
 **Tasklet** 하나와 **Reader & Processor & Writer** 한 묶음이 **같은 레벨**  
 Tasklet과  Reader & Processor & Writer 를 **분리**할 수 없음  
@@ -84,8 +85,9 @@ Tasklet과  Reader & Processor & Writer 를 **분리**할 수 없음
 
 ### 4. Spring Batch Meta Data에 대하여...
 
- - ERD
-![Job](data/batch_table_erd.png)  
+ - ERD  
+
+![ERD](data/batch_table_erd.png)  
 
 
 1. BATCH_JOB_INSTANCE
