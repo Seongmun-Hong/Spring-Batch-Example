@@ -74,24 +74,24 @@ Tasklet과  Reader & Processor & Writer 를 **분리**할 수 없음
 </br>
 
 
-#### MySQL에서 Spring Batch 실행
-##### 1. MySQL 에서 Meta Data Table 생성
+#### 4-1 MySQL에서 Spring Batch 실행
+1. MySQL 에서 Meta Data Table 생성
  - file search - **schema-mysql.sql** 검색 후 쿼리문을 MySQL에서 실행
 
-##### 2. Spring boot DB 연결
+2. Spring boot DB 연결
  - Mybatis 연결 및 properties 파일 추가
 
-##### 3. active profile 에 mysql 추가 후 실행
+3. active profile 에 mysql 추가 후 실행
 </br>
 
-### 4. JOB, JOB_INSTANCE, JOB_EXCUTION
+### 5. JOB, JOB_INSTANCE, JOB_EXCUTION
 
  - ERD  
 
 ![ERD](data/batch_table_erd.png)  
 
 
-#### 1. BATCH_JOB_INSTANCE
+#### 5-1. BATCH_JOB_INSTANCE
 
  * JOB_INSTANCE_ID  
    * BATCH_JOB_INSTANCE 테이블의 PK
@@ -104,17 +104,18 @@ BATCH_JOB_INSTANCE 테이블은 Job Parameter에 따라 생성되는 테이블
 같은 Batch Job 이라도 Job Parameter가 **다르면** **Batch_JOB_INSTANCE에는 기록**되며, Job Parameter가 **같다면 기록되지 않습니다.**  
 
 </br>
-#### 2. BATCH_JOB_EXECUTION
+#### 5-2. BATCH_JOB_EXECUTION
 
 JOB_EXECUTION와 JOB_INSTANCE는 **부모-자식 관계**입니다.  
 **JOB_EXECUTION**은 자신의 부모 **JOB_INSTACNE**가 **성공/실패했던 모든 내역**을 갖고 있습니다.  
 </br>
 동일한 Job Parameter로 **2번 실행하여도** 같은 파라미터로 실행되었다는 **에러가 발생하지 않는다!**
 
-#### ! Spring Batch는 동일한 Job Parameter로 성공한 기록이 있을때만 재수행이 안된다.
+#### ! Spring Batch는 동일한 Job Parameter로 성공한 기록이 있을때만 재수행이 안된다.  
 
 </br>
-#### 3. 정리
+
+#### 5-3. 정리
 
 |      -     |                          내용                          |
 |:------------:|:------------------------------------------------------------:|
