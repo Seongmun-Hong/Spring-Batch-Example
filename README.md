@@ -15,7 +15,7 @@
 3. 누군가 이미 집계함수를 실행하여 집계함수를 2번 실행
 
 
-바로 이런 단발성으로 대용량의 데이터를 처리하는 어플리케이션 = **배치 어플리케이션**  
+이런 단발성으로 대용량의 데이터를 처리하는 어플리케이션 = **배치 어플리케이션**  
 </br>
 #### 배치 어플리케이션의 조건
  - 대용량 데이터 - 배치 어플리케이션은 대량의 데이터를 가져오거나, 전달하거나, 계산하는 등의 처리를 할 수 ​​있어야 합니다.
@@ -84,6 +84,9 @@ Tasklet과  Reader & Processor & Writer 를 **분리**할 수 없음
 3. active profile 에 mysql 추가 후 실행
 </br>
 
+#### 4-2 Maven project active profile 설정
+**!!TODO!!**
+
 ### 5. JOB, JOB_INSTANCE, JOB_EXCUTION
 
  - ERD  
@@ -101,14 +104,15 @@ Tasklet과  Reader & Processor & Writer 를 **분리**할 수 없음
 BATCH_JOB_INSTANCE 테이블은 Job Parameter에 따라 생성되는 테이블
  > Job Parameter = Spring Batch가 실행될때 외부에서 받을 수 있는 파라미터 = Program Arguments
  
-같은 Batch Job 이라도 Job Parameter가 **다르면** **Batch_JOB_INSTANCE에는 기록**되며, Job Parameter가 **같다면 기록되지 않습니다.**  
+같은 Batch Job 이라도 Job Parameter가 **다르면** **Batch_JOB_INSTANCE에는 기록**되며,  
+Job Parameter가 **같다면 기록되지 않는다.**  
 
 </br>
 
 #### 5-2. BATCH_JOB_EXECUTION
 
-JOB_EXECUTION와 JOB_INSTANCE는 **부모-자식 관계**입니다.  
-**JOB_EXECUTION**은 자신의 부모 **JOB_INSTACNE**가 **성공/실패했던 모든 내역**을 갖고 있습니다.  
+JOB_EXECUTION와 JOB_INSTANCE는 **부모-자식 관계**이다.  
+**JOB_EXECUTION**은 자신의 부모 **JOB_INSTACNE**가 **성공/실패했던 모든 내역**을 갖고 있다.  
 </br>
 동일한 Job Parameter로 **2번 실행하여도** 같은 파라미터로 실행되었다는 **에러가 발생하지 않는다!**
 
@@ -129,7 +133,72 @@ JOB_EXECUTION와 JOB_INSTANCE는 **부모-자식 관계**입니다.
 
 </br>
 
-### 4. String Batch Job Flow
+### 6. String Batch Job Flow
+
+Spring Batch의 Job을 구성 - Step이 존재  
+Step은 실제 Batch 작업을 수행하는 역할  
+  
+실제로 Batch 비지니스 로직을 처리하는 기능은 Step에 구현  
+이처럼 Step에서는 Batch로 실제 처리하고자 하는 기능과 설정을 모두 포함  
+  
+따라서 Batch는 **Job 내부의 Step들 간에 순서 혹은 처리 흐름을 제어할 필요성 존재**  
+
+</br>
+
+#### 6-1. Next
+
+next()는 순차적으로 Step들 연결시킬때 사용  
+
+</br>
+**Example**  
+
+```
+@Bean
+public Job job() {
+    return jobBuilderFactory.get("job") // job 이름 설정
+            .start(step1())
+            .next(step2())
+            .next(step3())
+            .build();
+}
+```
+
+step1 -> step2 -> stpe3 순으로 하나씩 실행
+
+#### 6-2. 특정 Batch Job만 실행
+
+여러개의 Batch Job이 존재할 경우 특정한 Batch Job 만 실행하기 위하여  
+
+```
+spring.batch.job.names: ${job.name:NONE}
+```
+
+코드를 application.properties 에 추가  
+</br>
+
+Spring Batch가 실행될때  
+Program arguments로 job.name 값이 넘어오면 해당 값과 일치하는 Job만 실행하겠다는 뜻
+ 
+> ${job.name:NONE}의 의미  
+> 
+> job.name이 **있으면 job.name** 값을 할당, **없으면 NONE** 할당  
+> 따라서 spring.batch.job.names에 **NONE이 할당되면 어떠한 배치도 실행하지 않음**  
+  
+</br>
+   
+프로그램 실행 시 Program arguments에  
+
+```
+--job.name=JobName
+```
+
+과 같이 인자를 넘겨주면 됨.  
+
+</br>
+
+#### 6-3. 조건별 흐름 제어
+
+
 
 
 
